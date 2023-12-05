@@ -57,39 +57,43 @@ let plants = [
     
 ]
 
-for(let i =0; i < bannerDots.length; i ++) {
-    bannerDots[i].addEventListener('click', (e) => {
-        console.log(i+1, window.innerWidth)
 
+
+for(let i =0; i < bannerDots.length; i ++) {
+    bannerDots[i].addEventListener('click', () => {
         for(let i = 0; i < bannerDots.length;i++) {
             bannerDots[i].classList.remove('active-dot')
         }
-
         bannerDots[i].classList.add('active-dot')
 
         if(i === 0) {
             bannerItem.style.transform=`translateX(${0}px)`
         } else if (i===1) {
             bannerItem.style.transform=`translateX(${-banner.clientWidth}px)`
-            
         } else if (i===2) {
             bannerItem.style.transform=`translateX(${-banner.clientWidth*2}px)`
-            
+        } else{
+            bannerItem.style.transform=`translateX(${0}px)`
         }
-        
-
     })
 }
+
+bannerItem.addEventListener('wheel', (event) => {
+    const deltaX = event.deltaX;
+    bannerItem.scrollLeft += deltaX;
+  });
 
 mainLogin.addEventListener('click', () => {
     overlay.classList.add('overlay-active')
     modal.classList.add('modal-active')
+    document.body.style.overflow = "hidden";
     
 })
 
 closeMark.addEventListener('click', () => {
     overlay.classList.remove('overlay-active')
     modal.classList.remove('modal-active')
+    document.body.style.overflow = "scroll";
 })
 
 searchIcon.addEventListener('click', () => {
@@ -97,7 +101,6 @@ searchIcon.addEventListener('click', () => {
     searchBar.classList.add('search-bar-active')
 })
 
-console.log(searchIconBar)
 
 searchIconBar.addEventListener('click', () => {
     searchIcon.classList.remove('search-icon-passive')
@@ -138,7 +141,6 @@ for(let i = 0; i< mobileLinks.length; i++) {
     })
 }
 
-
 let template = ``
 
 selectItem.addEventListener('change', (e) => {
@@ -164,8 +166,6 @@ selectItem.addEventListener('change', (e) => {
     })
     
 })
-
-console.log(minRange.value, maxRange.value)
 
 minRange.addEventListener("input", function() {
     
@@ -211,3 +211,22 @@ maxRange.addEventListener("input", function() {
         }
     })
 });
+
+window.addEventListener('resize', () => {
+    const windowWidth = document.documentElement.clientWidth;
+    if(windowWidth >= 425) {
+        mobileMenu.style.display='none'
+        overlay.classList.remove('overlay-active')
+        mobileModal.classList.remove('mobile-modal-active')
+    } else {
+        mobileMenu.style.display='flex'
+        overlay.classList.remove('overlay-active')
+        modal.classList.remove('modal-active')
+        
+    }
+
+    overlay.classList.remove('overlay-active')
+    modal.classList.remove('modal-active')
+    document.body.style.overflow = "scroll";
+        
+  });
